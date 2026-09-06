@@ -7,11 +7,12 @@ SPDX-License-Identifier: MPL-2.0
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { getLocalization } from '$lib/i18n';
+	import { fly } from 'svelte/transition';
+	import confetti from 'canvas-confetti';
+	import { TrophyIcon, MedalIcon } from '$lib/components/icons';
 
 	const { t } = getLocalization();
 
-	import { fly } from 'svelte/transition';
-	import confetti from 'canvas-confetti';
 	interface Props {
 		data: any;
 		username?: any;
@@ -44,34 +45,57 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 {#if show_final_results}
-	<canvas bind:this={canvas}></canvas>
-	<div>
-		{#each player_names as player, i}
-			{#if i <= player_count_or_five - 1}
-				<p
-					in:fly|global={{ y: -300, delay: player_count_or_five * 1200 - (i + 1) * 1000 }}
-					style="font-size: {player_count_or_five - i / 2}rem"
-					class="text-center"
-				>
-					{$t('play_page.final_result_rank', {
-						place: i + 1,
-						username: player,
-						points: data[player]
-					})}
-				</p>
-			{/if}
-		{/each}
-	</div>
-	{#if data[username]}
-		<div class="fixed bottom-0 left-0 flex justify-center w-full mb-6">
-			<div class="mx-auto p-2 border-[#B07156] border-4 rounded-sm">
-				<p class="text-center">{$t('play_page.your_score', { score: data[username] })}</p>
+	<canvas bind:this={canvas} class="fixed inset-0 pointer-events-none z-50"></canvas>
+	<div class="min-h-screen flex flex-col justify-center items-center p-4 font-vt">
+		<div class="mc-panel-dark p-6 max-w-2xl w-full shadow-2xl text-center mb-8">
+			<div class="w-16 h-16 mx-auto mb-2 flex items-center justify-center text-[#ffff55] animate-bounce">
+				<TrophyIcon class="w-12 h-12" />
+			</div>
+			<h1 class="font-minecraft text-2xl sm:text-4xl text-[#ffff55] mc-text-shadow-gold mb-6">
+				FINAL RESULTS
+			</h1>
+
+			<div class="flex flex-col gap-3">
 				{#each player_names as player, i}
-					{#if player === username}
-						<p class="text-center">{$t('play_page.your_place', { place: i + 1 })}</p>
+					{#if i <= player_count_or_five - 1}
+						{@const rankColors = [
+							'text-[#ffff55] border-[#f59e0b] bg-[#f59e0b]/20',
+							'text-[#dcdcdc] border-[#a0a0a0] bg-[#a0a0a0]/20',
+							'text-[#d98218] border-[#b07d4b] bg-[#b07d4b]/20',
+							'text-[#55ff55] border-[#55ff55]/50 bg-[#1e1e1e]',
+							'text-[#4eedf5] border-[#4eedf5]/50 bg-[#1e1e1e]'
+						]}
+						{@const rankTitles = ['1ST PLACE', '2ND PLACE', '3RD PLACE', '4TH PLACE', '5TH PLACE']}
+						<div
+							in:fly|global={{ y: -200, delay: player_count_or_five * 1000 - (i + 1) * 800 }}
+							class="mc-slot-dark p-3 flex items-center justify-between border-2 {rankColors[i] ?? 'text-white'}"
+						>
+							<div class="flex items-center gap-3">
+								<div class="flex items-center gap-1.5 font-minecraft text-xs sm:text-sm">
+									<MedalIcon class="w-4 h-4 inline-block" />
+									<span>{rankTitles[i]}</span>
+								</div>
+								<span class="font-minecraft text-base sm:text-xl mc-text-shadow">{player}</span>
+							</div>
+							<span class="font-minecraft text-sm sm:text-lg">{data[player]} PTS</span>
+						</div>
 					{/if}
 				{/each}
 			</div>
 		</div>
-	{/if}
+
+		{#if data[username]}
+			<div class="mc-panel-dark p-4 max-w-md w-full shadow-2xl text-center">
+				<p class="font-minecraft text-xs text-[#a0a0a0] uppercase mb-1">YOUR SCORE:</p>
+				<p class="font-minecraft text-xl text-[#55ff55] mc-text-shadow">{data[username]} PTS</p>
+				{#each player_names as player, i}
+					{#if player === username}
+						<p class="font-vt text-xl text-[#ffff55] mt-1">
+							Final Rank: #{i + 1} of {player_names.length} players
+						</p>
+					{/if}
+				{/each}
+			</div>
+		{/if}
+	</div>
 {/if}

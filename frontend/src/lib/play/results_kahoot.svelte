@@ -5,6 +5,8 @@ SPDX-License-Identifier: MPL-2.0
 -->
 
 <script lang="ts">
+	import { SparklesIcon } from '$lib/components/icons';
+
 	function sortObjectbyValue(obj) {
 		const ret = {};
 		Object.keys(obj)
@@ -43,13 +45,35 @@ SPDX-License-Identifier: MPL-2.0
 	let sorted_scores = $derived(sortObjectbyValue(scores));
 </script>
 
-<div>
-	<div class="flex justify-center h-screen">
-		<div class="m-auto flex flex-col">
-			<p class="p-4 bg-black/40 rounded-lg text-2xl">
-				+{score_by_username[username] ?? '0'}
-			</p>
-			<p>Total score: {sorted_scores[username] ?? '0'}</p>
+<div class="flex justify-center items-center h-screen font-vt p-4">
+	<div class="mc-panel-dark p-8 max-w-md w-full shadow-2xl flex flex-col items-center text-center">
+		<!-- Sparkles / Trophy Icon -->
+		<div class="w-12 h-12 mb-3 flex items-center justify-center text-[#ffff55] animate-bounce">
+			<SparklesIcon class="w-10 h-10" />
 		</div>
+
+		<h2 class="font-minecraft text-xl text-[#ffff55] mc-text-shadow-gold mb-4">
+			ROUND COMPLETE
+		</h2>
+
+		<!-- XP Gained Box -->
+		<div class="mc-slot-dark p-4 w-full mb-4 flex items-center justify-between">
+			<span class="font-minecraft text-xs text-[#a0a0a0] uppercase">SCORE GAINED:</span>
+			<span class="font-minecraft text-2xl text-[#55ff55] mc-text-shadow">
+				+{score_by_username[username] ?? '0'} PTS
+			</span>
+		</div>
+
+		<!-- Total Score Box -->
+		<div class="mc-slot-dark p-4 w-full flex items-center justify-between">
+			<span class="font-minecraft text-xs text-[#a0a0a0] uppercase">TOTAL SCORE:</span>
+			<span class="font-minecraft text-2xl text-[#ffff55] mc-text-shadow-gold">
+				{sorted_scores[username] ?? '0'}
+			</span>
+		</div>
+
+		<p class="font-vt text-lg text-[#888888] mt-6">
+			Waiting for Host...
+		</p>
 	</div>
 </div>

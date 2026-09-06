@@ -12,6 +12,21 @@ SPDX-License-Identifier: MPL-2.0
 	import JpgOpenGraph from '$lib/assets/landing/opengraph-home.jpg';
 	import Newsletter from '$lib/landing/newsletter.svelte';
 	import { fly, fade } from 'svelte/transition';
+	import {
+		PlayIcon,
+		CompassIcon,
+		SearchIcon,
+		DashboardIcon,
+		DocsIcon,
+		TrophyIcon,
+		SparklesIcon,
+		CheckIcon,
+		ClockIcon,
+		HammerIcon,
+		HeartIcon,
+		SunIcon,
+		MoonIcon
+	} from '$lib/components/icons';
 
 	import FindScreenshot from '$lib/assets/landing_new/find.webp';
 	import ImportScreenshot from '$lib/assets/landing_new/import.webp';
@@ -31,23 +46,30 @@ SPDX-License-Identifier: MPL-2.0
 		newsletterModalOpen = ls === null;
 	});
 
-	// eslint-disable-next-line no-unused-vars
+	const splashPhrases = [
+		'Real-time multiplayer quizzes!',
+		'Crafting quizzes since day one!',
+		'Achievement Get: 100% Score!',
+		'Lightning-fast websocket gameplay!',
+		'Built for classrooms and friends!',
+		'Made with open-source passion!',
+		'100% Pure Open-Source Quiz Platform!'
+	];
+	let currentSplash = $state(splashPhrases[0]);
+
+	onMount(() => {
+		currentSplash = splashPhrases[Math.floor(Math.random() * splashPhrases.length)];
+	});
+
 	enum SelectedCreateThing {
-		// eslint-disable-next-line no-unused-vars
 		Create,
-		// eslint-disable-next-line no-unused-vars
 		Find,
-		// eslint-disable-next-line no-unused-vars
 		Import
 	}
 
-	// eslint-disable-next-line no-unused-vars
 	enum SelectedPlayThing {
-		// eslint-disable-next-line no-unused-vars
 		Select,
-		// eslint-disable-next-line no-unused-vars
 		Results,
-		// eslint-disable-next-line no-unused-vars
 		Winners
 	}
 
@@ -57,423 +79,384 @@ SPDX-License-Identifier: MPL-2.0
 	const classquiz_reasons = [
 		{
 			headline: $t('index_page.no_player_limit'),
-			content: $t('index_page.no_player_limit_content')
+			content: $t('index_page.no_player_limit_content'),
+			icon: PlayIcon
 		},
 		{
 			headline: $t('index_page.no_tracking'),
-			content: $t('index_page.no_tracking_content')
+			content: $t('index_page.no_tracking_content'),
+			icon: CheckIcon
 		},
 		{
 			headline: $t('index_page.self_hostable'),
-			content: $t('index_page.self_hostable_content')
+			content: $t('index_page.self_hostable_content'),
+			icon: DashboardIcon
 		},
 		{
 			headline: $t('index_page.german_server'),
-			content: $t('index_page.german_server_content')
+			content: $t('index_page.german_server_content'),
+			icon: SparklesIcon
 		},
 		{
 			headline: $t('index_page.user_friendly'),
-			content: $t('index_page.user_friendly_content')
+			content: $t('index_page.user_friendly_content'),
+			icon: PlayIcon
 		},
 		{
 			headline: $t('index_page.completely_free'),
-			content: $t('index_page.completely_free_content')
+			content: $t('index_page.completely_free_content'),
+			icon: TrophyIcon
 		},
 		{
 			headline: $t('index_page.quiz_results_downloadable'),
-			content: $t('index_page.quiz_results_downloadable_content')
+			content: $t('index_page.quiz_results_downloadable_content'),
+			icon: DocsIcon
 		},
 		{
 			headline: $t('index_page.multilingual'),
-			content: $t('index_page.multilingual_content')
+			content: $t('index_page.multilingual_content'),
+			icon: CompassIcon
 		},
 		{
 			headline: $t('index_page.dark_mode'),
-			content: $t('index_page.dark_mode_content')
+			content: $t('index_page.dark_mode_content'),
+			icon: MoonIcon
 		},
 		{
 			headline: $t('index_page.download_quizzes'),
-			content: $t('index_page.download_quizzes_content')
+			content: $t('index_page.download_quizzes_content'),
+			icon: DashboardIcon
 		},
 		{
 			headline: $t('index_page.community_driven'),
-			content: $t('index_page.community_driven_content')
+			content: $t('index_page.community_driven_content'),
+			icon: HeartIcon
 		}
 	];
 	let selected_classquiz_reason = $state(0);
+	let ActiveIcon = $derived(classquiz_reasons[selected_classquiz_reason].icon);
 </script>
 
 <svelte:head>
 	<title>ClassQuiz - {$t('index_page.meta.title')}</title>
 	<meta name="description" content={$t('index_page.meta.description')} />
-	<title>ClassQuiz - Home</title>
-	<meta
-		name="description"
-		content="ClassQuiz is a quiz-application like KAHOOT!, but open-source. You can create quizzes and play them remotely with other people."
-	/>
-
 	<meta property="og:url" content="https://classquiz.de/" />
 	<meta property="og:type" content="website" />
 	<meta property="og:title" content="ClassQuiz - {$t('index_page.meta.title')}" />
 	<meta
 		property="og:description"
-		content="ClassQuiz is a quiz-application like KAHOOT!, but open-source. You can create quizzes and play them remotely with other people."
+		content="ClassQuiz is an open-source quiz application. Create quizzes and play them with your friends."
 	/>
 	<meta property="og:image" content={JpgOpenGraph} />
-
 	<meta name="twitter:card" content="summary_large_image" />
-	<meta property="twitter:domain" content="classquiz.de" />
-	<meta property="twitter:url" content="https://classquiz.de/" />
-	<meta name="twitter:title" content="ClassQuiz - {$t('index_page.meta.title')}" />
-	<meta
-		name="twitter:description"
-		content="ClassQuiz is a quiz-application like KAHOOT!, but open-source. You can create quizzes and play them remotely with other people."
-	/>
 	<meta name="twitter:image" content={WebPOpenGraph} />
 </svelte:head>
-<div class="min-h-screen flex flex-col">
-	<section class="pb-40">
-		<div class="pt-12 text-center">
-			<h1 class="sm:text-8xl text-6xl mt-6 marck-script">ClassQuiz</h1>
-			<p class="text-xl mt-4">{$t('index_page.slogan')}</p>
+
+<div class="min-h-screen flex flex-col font-vt">
+	<!-- Hero Section -->
+	<section class="pt-16 pb-20 px-4 text-center relative overflow-hidden">
+		<div class="max-w-4xl mx-auto flex flex-col items-center">
+			<!-- 3D Title -->
+			<div class="relative inline-block mt-8 mb-4">
+				<h1
+					class="font-minecraft text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-wider text-[#d0d0d0] drop-shadow-[0_6px_0_#2b2b2b]"
+					style="text-shadow: 4px 4px 0px #383838, 7px 7px 0px #1a1a1a, 10px 10px 0px #000000;"
+				>
+					CLASSQUIZ
+				</h1>
+				<!-- Bouncing Yellow Splash Text -->
+				<div class="absolute -bottom-4 right-0 sm:-right-8 z-20 pointer-events-none">
+					<span class="mc-splash-text text-sm sm:text-lg md:text-xl font-minecraft whitespace-nowrap">
+						{currentSplash}
+					</span>
+				</div>
+			</div>
+
+			<p class="font-vt text-2xl sm:text-3xl text-[#1e1e1e] dark:text-[#ffffa0] mt-6 max-w-2xl leading-relaxed">
+				{$t('index_page.slogan')}
+			</p>
+
+			<!-- Hero Action Buttons -->
+			<div class="flex flex-wrap gap-4 justify-center items-center mt-10 z-10">
+				<a
+					href="/play"
+					class="mc-btn-green mc-btn text-base sm:text-lg px-6 py-3 tracking-wider font-minecraft uppercase shadow-lg hover:scale-105 transition-transform flex items-center gap-2"
+				>
+					<PlayIcon class="w-4 h-4" />
+					<span>{$t('words.play')} Now</span>
+				</a>
+				<a
+					href="/explore"
+					class="mc-btn-diamond mc-btn text-base sm:text-lg px-6 py-3 tracking-wider font-minecraft uppercase shadow-lg hover:scale-105 transition-transform flex items-center gap-2"
+				>
+					<CompassIcon class="w-4 h-4" />
+					<span>{$t('words.explore')}</span>
+				</a>
+				<a
+					href="/create"
+					class="mc-btn-wood mc-btn text-base sm:text-lg px-6 py-3 tracking-wider font-minecraft uppercase shadow-lg hover:scale-105 transition-transform flex items-center gap-2"
+				>
+					<HammerIcon class="w-4 h-4" />
+					<span>{$t('words.create')}</span>
+				</a>
+			</div>
 		</div>
 	</section>
-	<section>
-		<h2 class="text-center text-5xl mb-6">{$t('index_page.how_does_classquiz_work')}</h2>
 
-		<div class="flex justify-center w-full">
-			<h3 class="text-center text-3xl rounded-t-lg bg-white/40 py-2 px-6">
-				{$t('index_page.get_a_quiz')}
-			</h3>
+	<!-- How Does ClassQuiz Work Section -->
+	<section class="max-w-6xl mx-auto px-4 mb-20 w-full">
+		<div class="text-center mb-8">
+			<h2 class="font-minecraft text-2xl sm:text-4xl text-[#1e1e1e] dark:text-[#ffff55] mc-text-shadow flex items-center justify-center gap-3">
+				<DocsIcon class="w-7 h-7 inline-block" />
+				<span>{$t('index_page.how_does_classquiz_work')}</span>
+			</h2>
 		</div>
-		<div
-			class="grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-2 bg-white/40 shadow-lg mb-12 lg:mx-12 mx-4 rounded-lg"
-		>
-			<div>
-				<div class="p-2 rounded-lg">
+
+		<!-- Step 1: Get a Quiz -->
+		<div class="mb-14">
+			<div class="flex justify-start">
+				<div class="mc-panel-dark px-4 py-2 font-minecraft text-sm sm:text-base border-b-0 text-[#ffff55] flex items-center gap-2">
+					<HammerIcon class="w-4 h-4" />
+					<span>{$t('index_page.get_a_quiz')}</span>
+				</div>
+			</div>
+
+			<div class="mc-panel-dark grid grid-cols-1 lg:grid-cols-2 gap-4 p-4 shadow-2xl">
+				<!-- Screenshot display inside item frame -->
+				<div class="mc-slot-dark p-2 flex items-center justify-center min-h-[260px]">
 					{#if selected_create_thing === SelectedCreateThing.Create}
 						<img
-							class="rounded-lg relative"
+							class="w-full max-h-[360px] object-contain border-2 border-[#555555]"
 							src={EditScreenshot}
-							in:fade|global
-							alt="Screenshot of the import-page showing an URL to Kahoot! entered"
+							in:fade|global={{ duration: 150 }}
+							alt="Screenshot of quiz editor"
 						/>
 					{:else if selected_create_thing === SelectedCreateThing.Find}
 						<img
-							class="rounded-lg relative"
+							class="w-full max-h-[360px] object-contain border-2 border-[#555555]"
 							src={FindScreenshot}
-							in:fade|global
-							alt="Screenshot of the search-page showing one found quiz for the term 'Country'"
+							in:fade|global={{ duration: 150 }}
+							alt="Screenshot of search page"
 						/>
 					{:else if selected_create_thing === SelectedCreateThing.Import}
 						<img
-							class="rounded-lg relative"
+							class="w-full max-h-[360px] object-contain border-2 border-[#555555]"
 							src={ImportScreenshot}
-							in:fade|global
-							alt="Screenshot of the import-page showing an URL to Kahoot! entered"
+							in:fade|global={{ duration: 150 }}
+							alt="Screenshot of import page"
 						/>
-					{:else}
-						<p>Shouldn't happen!</p>
 					{/if}
 				</div>
-			</div>
-			<div
-				class="lg:border-l lg:border-l-black lg:border-t-0 border-t border-t-black flex lg:flex-col flex-row stretch"
-			>
-				<div
-					class="m-2 rounded-lg p-2 bg-white/40 transition-all cursor-pointer lg:h-full"
-					onclick={() => {
-						selected_create_thing = SelectedCreateThing.Create;
-					}}
-					onkeyup={() => {
-						selected_create_thing = SelectedCreateThing.Create;
-					}}
-					class:shadow-2xl={selected_create_thing === SelectedCreateThing.Create}
-					class:opacity-70={selected_create_thing !== SelectedCreateThing.Create}
-					role="button"
-					tabindex="0"
-				>
-					<div
-						class="rounded-lg w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
+
+				<!-- Selection buttons -->
+				<div class="flex flex-col gap-3 justify-center">
+					<button
+						class="mc-btn text-left p-4 flex items-center gap-4 transition-all"
+						class:outline={selected_create_thing === SelectedCreateThing.Create}
+						class:outline-2={selected_create_thing === SelectedCreateThing.Create}
+						class:outline-[#55ff55]={selected_create_thing === SelectedCreateThing.Create}
+						onclick={() => {
+							selected_create_thing = SelectedCreateThing.Create;
+						}}
 					>
-						<svg
-							aria-label="Pencil-Icon"
-							class="w-8 h-8 text-black"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-							/>
-						</svg>
-					</div>
-					<h5 class="text-xl w-fit dark:text-black">{$t('words.create')}</h5>
-					<p class="dark:text-black">{$t('index_page.create_a_quiz_from_scratch')}</p>
-				</div>
-				<div
-					class="m-2 rounded-lg p-2 bg-white/40 transition-all cursor-pointer lg:h-full"
-					onclick={() => {
-						selected_create_thing = SelectedCreateThing.Find;
-					}}
-					onkeyup={() => {
-						selected_create_thing = SelectedCreateThing.Find;
-					}}
-					role="button"
-					tabindex="0"
-					class:shadow-2xl={selected_create_thing === SelectedCreateThing.Find}
-					class:opacity-70={selected_create_thing !== SelectedCreateThing.Find}
-				>
-					<div
-						class="rounded-lg w-fit p-1 bg-lime-500 hover:bg-lime-400 transition shadow-lg"
+						<div class="w-10 h-10 flex items-center justify-center text-[#ffff55]">
+							<DocsIcon class="w-7 h-7" />
+						</div>
+						<div>
+							<h3 class="font-minecraft text-sm sm:text-base text-[#ffff55]">{$t('words.create')}</h3>
+							<p class="font-vt text-lg text-[#dcdcdc]">{$t('index_page.create_a_quiz_from_scratch')}</p>
+						</div>
+					</button>
+
+					<button
+						class="mc-btn text-left p-4 flex items-center gap-4 transition-all"
+						class:outline={selected_create_thing === SelectedCreateThing.Find}
+						class:outline-2={selected_create_thing === SelectedCreateThing.Find}
+						class:outline-[#55ff55]={selected_create_thing === SelectedCreateThing.Find}
+						onclick={() => {
+							selected_create_thing = SelectedCreateThing.Find;
+						}}
 					>
-						<svg
-							class="w-8 h-8 text-black"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-							xmlns="http://www.w3.org/2000/svg"
-							aria-label="magnifying glass-Icon"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-							/>
-						</svg>
-					</div>
-					<h5 class="text-xl dark:text-black">{$t('words.find')}</h5>
-					<p class="dark:text-black">{$t('index_page.find_or_explore')}</p>
+						<div class="w-10 h-10 flex items-center justify-center text-[#ffff55]">
+							<SearchIcon class="w-7 h-7" />
+						</div>
+						<div>
+							<h3 class="font-minecraft text-sm sm:text-base text-[#ffff55]">{$t('words.find')}</h3>
+							<p class="font-vt text-lg text-[#dcdcdc]">{$t('index_page.find_or_explore')}</p>
+						</div>
+					</button>
+
+					<button
+						class="mc-btn text-left p-4 flex items-center gap-4 transition-all"
+						class:outline={selected_create_thing === SelectedCreateThing.Import}
+						class:outline-2={selected_create_thing === SelectedCreateThing.Import}
+						class:outline-[#55ff55]={selected_create_thing === SelectedCreateThing.Import}
+						onclick={() => {
+							selected_create_thing = SelectedCreateThing.Import;
+						}}
+					>
+						<div class="w-10 h-10 flex items-center justify-center text-[#ffff55]">
+							<DashboardIcon class="w-7 h-7" />
+						</div>
+						<div>
+							<h3 class="font-minecraft text-sm sm:text-base text-[#ffff55]">{$t('words.import')}</h3>
+							<p class="font-vt text-lg text-[#dcdcdc]">Import quizzes from other formats easily</p>
+						</div>
+					</button>
 				</div>
 			</div>
 		</div>
-	</section>
 
-	<section class="mt-24">
-		<div class="flex justify-center w-full">
-			<h2 class="text-center text-3xl rounded-t-lg bg-white/40 py-2 px-6">
-				{$t('index_page.play_quiz')}
-			</h2>
-		</div>
+		<!-- Step 2: Play Quiz -->
+		<div>
+			<div class="flex justify-start">
+				<div class="mc-panel-dark px-4 py-2 font-minecraft text-sm sm:text-base border-b-0 text-[#55ff55] flex items-center gap-2">
+					<PlayIcon class="w-4 h-4" />
+					<span>{$t('index_page.play_quiz')}</span>
+				</div>
+			</div>
 
-		<div
-			class="grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-2 bg-white/40 shadow-lg mb-12 lg:mx-12 mx-4 rounded-lg"
-		>
-			<div>
-				<div class="p-2 rounded-lg">
+			<div class="mc-panel-dark grid grid-cols-1 lg:grid-cols-2 gap-4 p-4 shadow-2xl">
+				<!-- Screenshot display inside item frame -->
+				<div class="mc-slot-dark p-2 flex items-center justify-center min-h-[260px]">
 					{#if selected_play_thing === SelectedPlayThing.Select}
 						<img
-							class="rounded-lg relative"
+							class="w-full max-h-[360px] object-contain border-2 border-[#555555]"
 							src={SelectScreenshot}
-							in:fade|global
-							alt="Screenshot of the screen where an answer can be selected"
+							in:fade|global={{ duration: 150 }}
+							alt="Screenshot of answer selection"
 						/>
 					{:else if selected_play_thing === SelectedPlayThing.Results}
 						<img
-							class="rounded-lg relative"
+							class="w-full max-h-[360px] object-contain border-2 border-[#555555]"
 							src={ResultScreenshot}
-							in:fade|global
-							alt="Screenshot of the results with a table showing how many players chose which answer"
+							in:fade|global={{ duration: 150 }}
+							alt="Screenshot of question results"
 						/>
 					{:else if selected_play_thing === SelectedPlayThing.Winners}
 						<img
-							class="rounded-lg relative"
+							class="w-full max-h-[360px] object-contain border-2 border-[#555555]"
 							src={WinnersScreenshot}
-							in:fade|global
-							alt="Screenshot of the import-page showing an URL to Kahoot! entered"
+							in:fade|global={{ duration: 150 }}
+							alt="Screenshot of victory podium"
 						/>
-					{:else}
-						<p>Shouldn't happen!</p>
 					{/if}
 				</div>
-			</div>
-			<div
-				class="lg:border-l lg:border-l-black lg:border-t-0 border-t border-t-black flex lg:flex-col flex-row stretch"
-			>
-				<div
-					class="m-2 rounded-lg p-2 bg-white/40 transition-all cursor-pointer lg:h-full"
-					onclick={() => {
-						selected_play_thing = SelectedPlayThing.Select;
-					}}
-					onkeyup={() => {
-						selected_play_thing = SelectedPlayThing.Select;
-					}}
-					role="button"
-					tabindex="0"
-					class:shadow-2xl={selected_play_thing === SelectedPlayThing.Select}
-					class:opacity-70={selected_play_thing !== SelectedPlayThing.Select}
-				>
-					<div
-						class="rounded-lg bg-emerald-300 w-fit p-1 hover:bg-lime-400 transition shadow-lg"
+
+				<!-- Selection buttons -->
+				<div class="flex flex-col gap-3 justify-center">
+					<button
+						class="mc-btn text-left p-4 flex items-center gap-4 transition-all"
+						class:outline={selected_play_thing === SelectedPlayThing.Select}
+						class:outline-2={selected_play_thing === SelectedPlayThing.Select}
+						class:outline-[#55ff55]={selected_play_thing === SelectedPlayThing.Select}
+						onclick={() => {
+							selected_play_thing = SelectedPlayThing.Select;
+						}}
 					>
-						<svg
-							aria-label="Mouse-Click icon"
-							class="w-8 h-8 text-black"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
-							/>
-						</svg>
-					</div>
-					<h5 class="text-xl w-fit dark:text-black">{$t('index_page.select_answer')}</h5>
-					<p class="dark:text-black">{$t('index_page.choose_answer_wisely')}</p>
-				</div>
-				<div
-					class="m-2 rounded-lg p-2 bg-white/40 transition-all cursor-pointer lg:h-full"
-					role="button"
-					tabindex="0"
-					onclick={() => {
-						selected_play_thing = SelectedPlayThing.Results;
-					}}
-					onkeyup={() => {
-						selected_play_thing = SelectedPlayThing.Results;
-					}}
-					class:shadow-2xl={selected_play_thing === SelectedPlayThing.Results}
-					class:opacity-70={selected_play_thing !== SelectedPlayThing.Results}
-				>
-					<div
-						class="rounded-lg bg-emerald-300 w-fit p-1 hover:bg-lime-400 transition shadow-lg"
+						<div class="w-10 h-10 flex items-center justify-center text-[#ffff55]">
+							<CheckIcon class="w-7 h-7" />
+						</div>
+						<div>
+							<h3 class="font-minecraft text-sm sm:text-base text-[#ffff55]">{$t('index_page.select_answer')}</h3>
+							<p class="font-vt text-lg text-[#dcdcdc]">{$t('index_page.choose_answer_wisely')}</p>
+						</div>
+					</button>
+
+					<button
+						class="mc-btn text-left p-4 flex items-center gap-4 transition-all"
+						class:outline={selected_play_thing === SelectedPlayThing.Results}
+						class:outline-2={selected_play_thing === SelectedPlayThing.Results}
+						class:outline-[#55ff55]={selected_play_thing === SelectedPlayThing.Results}
+						onclick={() => {
+							selected_play_thing = SelectedPlayThing.Results;
+						}}
 					>
-						<svg
-							aria-label="context-menu icon"
-							class="w-8 h-8 text-black"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M4 6h16M4 10h16M4 14h16M4 18h16"
-							/>
-						</svg>
-					</div>
-					<h5 class="text-xl dark:text-black">{$t('index_page.view_results')}</h5>
-					<p class="dark:text-black">{$t('index_page.check_if_chosen_wisely')}</p>
-				</div>
-				<div
-					class="m-2 rounded-lg p-2 bg-white/40 transition-all cursor-pointer lg:h-full"
-					role="button"
-					tabindex="0"
-					onclick={() => {
-						selected_play_thing = SelectedPlayThing.Winners;
-					}}
-					onkeyup={() => {
-						selected_play_thing = SelectedPlayThing.Winners;
-					}}
-					class:shadow-2xl={selected_play_thing === SelectedPlayThing.Winners}
-					class:opacity-70={selected_play_thing !== SelectedPlayThing.Winners}
-				>
-					<div
-						class="rounded-lg bg-emerald-300 w-fit p-1 hover:bg-lime-400 transition shadow-lg"
+						<div class="w-10 h-10 flex items-center justify-center text-[#ffff55]">
+							<ClockIcon class="w-7 h-7" />
+						</div>
+						<div>
+							<h3 class="font-minecraft text-sm sm:text-base text-[#ffff55]">{$t('index_page.view_results')}</h3>
+							<p class="font-vt text-lg text-[#dcdcdc]">{$t('index_page.check_if_chosen_wisely')}</p>
+						</div>
+					</button>
+
+					<button
+						class="mc-btn text-left p-4 flex items-center gap-4 transition-all"
+						class:outline={selected_play_thing === SelectedPlayThing.Winners}
+						class:outline-2={selected_play_thing === SelectedPlayThing.Winners}
+						class:outline-[#55ff55]={selected_play_thing === SelectedPlayThing.Winners}
+						onclick={() => {
+							selected_play_thing = SelectedPlayThing.Winners;
+						}}
 					>
-						<svg
-							aria-label="sparkling stars-icon"
-							class="w-8 h-8 text-black"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-							/>
-						</svg>
-					</div>
-					<h5 class="text-xl dark:text-black">{$t('index_page.list_winners')}</h5>
-					<p class="dark:text-black">{$t('index_page.get_ranking_and_winners')}</p>
+						<div class="w-10 h-10 flex items-center justify-center text-[#ffff55]">
+							<TrophyIcon class="w-7 h-7" />
+						</div>
+						<div>
+							<h3 class="font-minecraft text-sm sm:text-base text-[#ffff55]">{$t('index_page.list_winners')}</h3>
+							<p class="font-vt text-lg text-[#dcdcdc]">{$t('index_page.get_ranking_and_winners')}</p>
+						</div>
+					</button>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<section class="mt-24">
-		<div class="flex justify-center w-full">
-			<h2 class="text-center text-3xl rounded-t-lg bg-white/40 py-2 px-6">
-				{$t('index_page.why_classquiz')}
+	<!-- Why ClassQuiz Section -->
+	<section class="max-w-6xl mx-auto px-4 mb-24 w-full">
+		<div class="text-center mb-8">
+			<h2 class="font-minecraft text-2xl sm:text-4xl text-[#1e1e1e] dark:text-[#ffff55] mc-text-shadow flex items-center justify-center gap-3">
+				<SparklesIcon class="w-7 h-7" />
+				<span>{$t('index_page.why_classquiz')}</span>
 			</h2>
 		</div>
 
-		<div
-			class="grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-2 bg-white/40 shadow-lg mb-12 lg:mx-12 mx-4 rounded-lg"
-		>
-			<div>
-				<div class="p-12 rounded-lg flex justify-center items-center h-full">
-					<p class="dark:text-black">
-						{classquiz_reasons[selected_classquiz_reason].content}
-					</p>
-				</div>
-			</div>
-			<div
-				class="lg:border-l lg:border-l-black lg:border-t-0 border-t border-t-black flex lg:flex-col flex-row stretch overflow-x-auto why-classquiz"
-			>
+		<div class="mc-panel-dark p-6 shadow-2xl">
+			<!-- Top: Reasons Grid -->
+			<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 mb-6">
 				{#each classquiz_reasons as reason, index}
-					<div
-						class="m-2 rounded-lg p-2 bg-white/40 transition-all cursor-pointer lg:h-full"
-						role="button"
-						tabindex="0"
+					{@const IconComponent = reason.icon}
+					<button
+						class="mc-slot-dark p-2 flex flex-col items-center justify-center text-center transition-all hover:bg-[#333333]"
+						class:outline={selected_classquiz_reason === index}
+						class:outline-2={selected_classquiz_reason === index}
+						class:outline-[#ffff55]={selected_classquiz_reason === index}
 						onclick={() => {
 							selected_classquiz_reason = index;
 						}}
-						onkeyup={() => {
-							selected_classquiz_reason = index;
-						}}
-						class:shadow-2xl={selected_classquiz_reason === index}
-						class:opacity-70={selected_classquiz_reason !== index}
 					>
-						<h5 class="text-xl dark:text-black">{reason.headline}</h5>
-					</div>
+						<div class="w-7 h-7 mb-1 flex items-center justify-center text-[#ffff55]">
+							<IconComponent class="w-5 h-5" />
+						</div>
+						<span class="font-minecraft text-[10px] text-[#dcdcdc] line-clamp-2 leading-tight">
+							{reason.headline}
+						</span>
+					</button>
 				{/each}
+			</div>
+
+			<!-- Bottom: Active Item Description Box -->
+			<div class="mc-tooltip p-6 border-4">
+				<h3 class="font-minecraft text-lg sm:text-xl text-[#ffff55] mb-2 flex items-center gap-2">
+					<ActiveIcon class="w-5 h-5 inline-block" />
+					<span>{classquiz_reasons[selected_classquiz_reason].headline}</span>
+				</h3>
+				<p class="font-vt text-xl sm:text-2xl text-[#f0f0f0] leading-relaxed">
+					{classquiz_reasons[selected_classquiz_reason].content}
+				</p>
 			</div>
 		</div>
 	</section>
 </div>
+
 {#if newsletterModalOpen}
 	<div
-		class="fixed bottom-8 right-5 bg-white rounded-lg h-fit w-11/12 ml-5 lg:w-2/12 z-50 p-2 dark:bg-gray-700"
-		transition:fly|global
+		class="fixed bottom-6 right-6 z-50 p-2 mc-panel-dark shadow-2xl max-w-sm"
+		transition:fly|global={{ y: 20 }}
 	>
 		<Newsletter bind:open={newsletterModalOpen} />
 	</div>
 {/if}
+
 <Footer />
-
-<style>
-	.why-classquiz::-webkit-scrollbar {
-		height: 0.8rem;
-		margin-bottom: 5rem;
-	}
-
-	.why-classquiz::-webkit-scrollbar-track {
-		box-shadow: inset 0 0 10px 10px transparent;
-		border: solid 3px transparent;
-	}
-
-	.why-classquiz::-webkit-scrollbar-thumb {
-		box-shadow: inset 0 0 10px 10px #374151;
-		border: solid 3px transparent;
-		border-radius: 15px;
-	}
-
-	.why-classquiz::-webkit-scrollbar-thumb:hover {
-		box-shadow: inset 0 0 10px 10px #555;
-		border: solid 3px transparent;
-	}
-</style>

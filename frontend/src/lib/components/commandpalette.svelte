@@ -226,7 +226,7 @@ This should be okay, right?
 
 {#if open}
 	<div
-		class="fixed top-0 left-0 w-screen h-screen flex bg-black/50 z-50"
+		class="fixed top-0 left-0 w-screen h-screen flex bg-black/80 z-50 p-4 font-vt text-white"
 		onclick={close_on_outside}
 		onkeyup={close_on_outside}
 		role="button"
@@ -234,45 +234,48 @@ This should be okay, right?
 		tabindex="0"
 		transition:fade|global={{ duration: 60 }}
 	>
-		<div class="m-auto w-1/3 h-2/3 rounded-sm bg-black flex flex-col">
-			<div class="grid grid-cols-1 grid-rows-1 border-b border-b-white">
-				<p
-					class="col-start-1 row-start-1 w-full p-4 outline-hidden bg-gray-700 rounded-t text-gray-400"
-				>
-					{bg_text}
-				</p>
-				<input
-					type="text"
-					class="col-start-1 row-start-1 w-full p-4 outline-hidden bg-gray-700 rounded-sm"
-					bind:value={input}
-					oninput={() => search(input)}
-					autofocus
-				/>
+		<div class="m-auto w-full max-w-xl max-h-[80vh] mc-panel-dark flex flex-col shadow-2xl border-4">
+			<div class="flex items-center gap-2 p-3 bg-[#181818] border-b-2 border-[#555555]">
+				<span class="font-minecraft text-lg text-[#ffff55]">/</span>
+				<div class="relative flex-1">
+					<p class="absolute inset-0 font-vt text-xl text-[#666666] pointer-events-none">
+						{bg_text}
+					</p>
+					<input
+						type="text"
+						class="w-full bg-transparent outline-none font-vt text-xl text-[#55ff55]"
+						placeholder="Type a realm command..."
+						bind:value={input}
+						oninput={() => search(input)}
+						autofocus
+					/>
+				</div>
 			</div>
-			<div class="flex flex-col p-2 gap-2 overflow-scroll">
+			<div class="flex flex-col p-3 gap-2 overflow-y-auto max-h-[60vh]">
 				{#each visible_items as vi, i}
 					<div
 						transition:fade={{ duration: 60 }}
-						class="p-2 transition rounded-sm"
-						class:bg-[#B07156]={selected === i}
-						class:bg-gray-700={selected !== i}
+						class="p-2 transition-all cursor-pointer mc-slot-dark border-2"
+						class:outline={selected === i}
+						class:outline-2={selected === i}
+						class:outline-[#ffff55]={selected === i}
 						onmouseenter={() => (selected = i)}
 						onmousedown={execute_action}
 						tabindex="-2"
 						role="button"
 					>
-						<div class="flex">
-							<h3 class="text-lg my-auto">{vi.title}</h3>
-							<p class="font-mono my-auto ml-auto h-fit bg-black/50 rounded-sm p-0.5">
+						<div class="flex items-center justify-between">
+							<h3 class="font-minecraft text-sm text-[#ffff55]">{vi.title}</h3>
+							<span class="font-minecraft text-xs bg-[#000000] text-[#55ff55] px-2 py-0.5 border border-[#444444]">
 								/{vi.command}
 								{#if vi.args}
 									{#each vi.args as arg}
-										&lbrace;<span class="text-indigo-400">{arg}</span
+										&lbrace;<span class="text-[#4eedf5]">{arg}</span
 										>&rbrace;{/each}
 								{/if}
-							</p>
+							</span>
 						</div>
-						<p class="text-sm">{vi.description}</p>
+						<p class="font-vt text-base text-[#a0a0a0] mt-1">{vi.description}</p>
 					</div>
 				{/each}
 			</div>

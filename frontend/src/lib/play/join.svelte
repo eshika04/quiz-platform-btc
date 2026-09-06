@@ -13,6 +13,7 @@ SPDX-License-Identifier: MPL-2.0
 	import Cookies from 'js-cookie';
 	import BrownButton from '$lib/components/buttons/brown.svelte';
 	import { hcaptcha_site_key, recaptcha_key, sentry_dsn } from '$lib/config';
+	import { CompassIcon, PlayIcon, CheckIcon } from '$lib/components/icons';
 
 	const { t } = getLocalization();
 
@@ -203,46 +204,90 @@ SPDX-License-Identifier: MPL-2.0
 </svelte:head>
 
 {#if game_pin === '' || game_pin.length < 6}
-	<div class="flex flex-col justify-center align-center w-screen h-screen">
-		<form class="flex-col flex justify-center align-center mx-auto">
-			<h1 class="text-lg text-center">{$t('words.game_pin')}</h1>
-			<input
-				class="border border-gray-400 self-center text-center text-black ring-0 outline-hidden p-2 rounded-lg focus:shadow-2xl transition-all"
-				bind:value={game_pin}
-				maxlength="6"
-				inputmode="numeric"
-			/>
-			<!--				use:tippy={{content: "Please enter the game pin", sticky: true, placement: 'top'}}-->
-
-			<br />
-			<div class="mt-2">
-				<BrownButton disabled={game_pin.length < 6}>{$t('words.submit')}</BrownButton>
+	<div class="flex flex-col justify-center items-center w-screen h-screen p-4">
+		<div class="mc-panel-dark p-8 max-w-md w-full shadow-2xl flex flex-col items-center">
+			<div class="mb-6 text-center">
+				<div class="w-12 h-12 mx-auto mb-2 flex items-center justify-center text-[#ffff55]">
+					<CompassIcon class="w-10 h-10" />
+				</div>
+				<h1 class="font-minecraft text-xl sm:text-2xl text-[#ffff55] mc-text-shadow-gold">
+					DIRECT CONNECT
+				</h1>
+				<p class="font-vt text-lg text-[#a0a0a0] mt-1">ClassQuiz Game</p>
 			</div>
-		</form>
+
+			<form class="flex flex-col w-full">
+				<label for="game-pin-input" class="font-minecraft text-xs text-[#dcdcdc] mb-2 uppercase">
+					{$t('words.game_pin')}:
+				</label>
+				<input
+					id="game-pin-input"
+					class="mc-input text-center text-3xl font-minecraft tracking-widest text-[#55ff55] py-3 w-full"
+					bind:value={game_pin}
+					maxlength="6"
+					inputmode="numeric"
+					placeholder="000000"
+					autofocus
+				/>
+
+				<div class="mt-6 w-full">
+					<BrownButton disabled={game_pin.length < 6}>
+						<div class="flex items-center justify-center gap-2">
+							<CheckIcon class="w-4 h-4" />
+							<span>{$t('words.submit')}</span>
+						</div>
+					</BrownButton>
+				</div>
+			</form>
+		</div>
 	</div>
 {:else}
-	<div class="flex flex-col justify-center align-center w-screen h-screen">
-		<form onsubmit={setUsername} class="flex-col flex justify-center align-center mx-auto">
-			<h1 class="text-lg text-center">{$t('words.username')}</h1>
-			<input
-				class="border border-gray-400 self-center text-center text-black ring-0 outline-hidden p-2 rounded-lg focus:shadow-2xl transition-all"
-				bind:value={username}
-				maxlength="17"
-			/>
-			{#if custom_field}
-				<h1 class="text-lg text-center">{custom_field}</h1>
-				<input
-					class="border border-gray-400 self-center text-center text-black ring-0 outline-hidden p-2 rounded-lg focus:shadow-2xl transition-all"
-					bind:value={custom_field_value}
-				/>
-			{/if}
-
-			<div class="mt-2">
-				<BrownButton disabled={username.length <= 3} onclick={setUsername}
-					>{$t('words.submit')}</BrownButton
-				>
+	<div class="flex flex-col justify-center items-center w-screen h-screen p-4">
+		<div class="mc-panel-dark p-8 max-w-md w-full shadow-2xl flex flex-col items-center">
+			<div class="mb-6 text-center">
+				<div class="w-16 h-16 mx-auto mb-3 bg-[#4a3b32] border-4 border-[#1e1e1e] shadow-[inset_2px_2px_0_#2b221c] flex items-center justify-center text-[#55ff55]">
+					<PlayIcon class="w-8 h-8" />
+				</div>
+				<h1 class="font-minecraft text-xl sm:text-2xl text-[#ffff55] mc-text-shadow-gold">
+					PLAYER PROFILE
+				</h1>
+				<p class="font-vt text-lg text-[#55ff55] mt-1">Game PIN: #{game_pin}</p>
 			</div>
-		</form>
+
+			<form onsubmit={setUsername} class="flex flex-col w-full">
+				<label for="username-input" class="font-minecraft text-xs text-[#dcdcdc] mb-2 uppercase">
+					{$t('words.username')}:
+				</label>
+				<input
+					id="username-input"
+					class="mc-input text-center text-2xl font-minecraft text-[#ffff55] py-2.5 w-full mb-4"
+					bind:value={username}
+					maxlength="17"
+					placeholder="Player_One"
+					autofocus
+				/>
+
+				{#if custom_field}
+					<label for="custom-field-input" class="font-minecraft text-xs text-[#dcdcdc] mb-2 uppercase">
+						{custom_field}:
+					</label>
+					<input
+						id="custom-field-input"
+						class="mc-input text-center text-xl font-vt text-[#ffffff] py-2 w-full mb-4"
+						bind:value={custom_field_value}
+					/>
+				{/if}
+
+				<div class="mt-4 w-full">
+					<BrownButton disabled={username.length <= 3} onclick={setUsername}>
+						<div class="flex items-center justify-center gap-2">
+							<PlayIcon class="w-4 h-4" />
+							<span>JOIN GAME</span>
+						</div>
+					</BrownButton>
+				</div>
+			</form>
+		</div>
 	</div>
 {/if}
 <div

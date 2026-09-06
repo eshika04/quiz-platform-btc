@@ -83,13 +83,13 @@ SPDX-License-Identifier: MPL-2.0
 <svelte:head>
 	<title>ClassQuiz - Login</title>
 </svelte:head>
-<div class="flex items-center justify-center h-screen">
+<div class="flex items-center justify-center min-h-[85vh] p-4 font-vt">
 	{#if verified}
 		<VerifiedBadge />
 	{/if}
 
 	<div
-		class="lg:w-1/3 max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-2xl dark:bg-gray-800"
+		class="w-full max-w-md mx-auto mc-panel-dark p-6 shadow-2xl border-4"
 	>
 		{#if step === 0}
 			<!--			<p>StartWindow</p>-->

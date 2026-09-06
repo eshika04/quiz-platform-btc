@@ -159,59 +159,47 @@ SPDX-License-Identifier: MPL-2.0
 			</div>
 			{#if all_items.length !== 0}
 				<div class="flex justify-center pt-4 w-full">
-					<div>
-						<div>
-							<input
-								bind:value={search_term}
-								class="p-2 rounded-lg outline-hidden text-center w-96 dark:bg-gray-700"
-								placeholder={$t('dashboard.search_for_own_quizzes')}
-							/>
+					<div class="flex items-center gap-2 max-w-lg w-full">
+						<input
+							bind:value={search_term}
+							class="mc-input w-full text-center text-lg"
+							placeholder={$t('dashboard.search_for_own_quizzes')}
+						/>
+						{#if search_term}
 							<button
+								class="mc-btn font-minecraft text-xs px-3 py-2"
 								onclick={() => {
 									search_term = '';
 									items_to_show = all_items;
 								}}
 							>
-								<svg
-									class="h-8 inline-block"
-									fill="none"
-									stroke="currentColor"
-									viewBox="0 0 24 24"
-									xmlns="http://www.w3.org/2000/svg"
-								>
-									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										stroke-width="2"
-										d="M6 18L18 6M6 6l12 12"
-									/>
-								</svg>
+								✕
 							</button>
-						</div>
+						{/if}
 					</div>
 				</div>
-				<div class="flex flex-col gap-4 mt-4 px-2">
+				<div class="flex flex-col gap-4 mt-6 px-4">
 					{#each items_to_show as quiz}
 						<div
-							class="grid grid-cols-2 lg:grid-cols-3 w-full rounded-sm border-[#B07156] border-2 p-2 h-[20vh] overflow-hidden max-h-[20vh]"
+							class="mc-panel-dark grid grid-cols-2 lg:grid-cols-3 w-full p-4 min-h-[160px] shadow-xl"
 						>
 							<div class="hidden lg:flex w-auto h-full items-center relative">
 								{#if quiz.cover_image}
-									<!--									<img
-										src="/api/v1/storage/download/{quiz.cover_image}"
-										alt="user provided"
-										loading="lazy"
-										class="shrink-0 max-w-full max-h-full absolute rounded-sm"
-									/>-->
 									<MediaComponent
 										src={quiz.cover_image}
-										css_classes="shrink-0 max-w-full max-h-full absolute rounded-sm"
+										css_classes="shrink-0 max-w-full max-h-full absolute border-2 border-[#555555]"
 									/>
+								{:else}
+									<div class="w-16 h-16 mc-slot-dark flex items-center justify-center text-3xl">
+										📜
+									</div>
 								{/if}
 							</div>
-							<div class="my-auto mx-auto max-h-full overflow-hidden">
-								<p class="text-xl text-center">{@html quiz.title}</p>
-								<p class="text-sm text-center text-clip overflow-hidden">
+							<div class="my-auto mx-auto max-h-full overflow-hidden text-center lg:text-left">
+								<p class="font-minecraft text-base sm:text-lg text-[#ffff55] mc-text-shadow-gold">
+									{@html quiz.title}
+								</p>
+								<p class="font-vt text-lg text-[#dcdcdc] line-clamp-2 mt-1">
 									{@html quiz.description ?? ''}
 								</p>
 							</div>

@@ -59,54 +59,74 @@ SPDX-License-Identifier: MPL-2.0
 	{/if}
 </svelte:head>
 
-{#if navbarVisible.visible}
-	<Navbar />
-	<div class="pt-16">
-		<div class="z-40"></div>
-	</div>
-{/if}
-{@render children?.()}
-<CommandPalette />
+<div class="fixed inset-0 pointer-events-none overflow-hidden z-0 opacity-40">
+	<div class="mc-cloud-layer"></div>
+</div>
+
+<div class="relative z-10 min-h-screen flex flex-col">
+	{#if navbarVisible.visible}
+		<Navbar />
+		<div class="pt-16">
+			<div class="z-40"></div>
+		</div>
+	{/if}
+	{@render children?.()}
+	<CommandPalette />
+</div>
 
 <style lang="scss">
 	:global(html:not(.dark)) {
-		// height: 100%;
-		// width: 100%;
-
-		// bg-gradient-to-r from-[#009444] via-[#39b54a] to-[#8dc63f]
-		//background: linear-gradient(to right, #009444, #39b54a, #8dc63f) repeat-y;
-		background-color: #d6edc9;
-		background-size: cover;
-		/*background: linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%); */
-		/*background: linear-gradient(-225deg, #22E1FF 0%, #1D8FE1 48%, #625EB1 100%); */
-		color: black;
-
-		// background-size: 400% 400%;
-
-		//animation: background_animation 5s ease infinite;
+		background-color: #6da2f7;
+		background-image: 
+			radial-gradient(#89b8ff 15%, transparent 16%),
+			linear-gradient(180deg, #5b95f7 0%, #87b5ff 60%, #b8d4ff 100%);
+		background-size: 32px 32px, 100% 100%;
+		min-height: 100vh;
+		color: #1a1a1a;
 	}
 
 	:global(html.dark) {
-		//background-color: #0f2702;
-		background-color: #4e6e58;
-		background-size: cover;
-		color: white;
+		background-color: #141418;
+		background-image: 
+			radial-gradient(#2a2a35 20%, transparent 20%),
+			radial-gradient(#1e1e24 20%, transparent 20%),
+			linear-gradient(180deg, #0d0e12 0%, #17181f 60%, #22232c 100%);
+		background-size: 24px 24px, 24px 24px, 100% 100%;
+		background-position: 0 0, 12px 12px, 0 0;
+		min-height: 100vh;
+		color: #ffffff;
 
 		:global(#pips-slider) {
-			--pip: white;
-			--pip-active: white;
+			--pip: #55ff55;
+			--pip-active: #ffffff;
 		}
 	}
 
-	@keyframes background_animation {
+	.mc-cloud-layer {
+		position: absolute;
+		top: 40px;
+		left: 0;
+		width: 200%;
+		height: 120px;
+		background: 
+			linear-gradient(90deg, 
+				rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.85) 120px, 
+				transparent 120px, transparent 180px,
+				rgba(255,255,255,0.7) 180px, rgba(255,255,255,0.7) 340px,
+				transparent 340px, transparent 420px,
+				rgba(255,255,255,0.8) 420px, rgba(255,255,255,0.8) 600px,
+				transparent 600px, transparent 800px
+			);
+		background-size: 800px 48px;
+		animation: mc-clouds-drift 60s linear infinite;
+	}
+
+	@keyframes mc-clouds-drift {
 		0% {
-			background-position: 0% 50%;
-		}
-		50% {
-			background-position: 100% 50%;
+			transform: translateX(0);
 		}
 		100% {
-			background-position: 0% 50%;
+			transform: translateX(-50%);
 		}
 	}
 </style>

@@ -13,6 +13,7 @@ SPDX-License-Identifier: MPL-2.0
 	import { onMount } from 'svelte';
 	import { createTippy } from 'svelte-tippy';
 	import { getLocalization } from '$lib/i18n';
+	import { PlayIcon, CloseIcon, CheckIcon, GearIcon } from '$lib/components/icons';
 
 	const { t } = getLocalization();
 	let { quiz_id = $bindable() } = $props();
@@ -94,156 +95,108 @@ SPDX-License-Identifier: MPL-2.0
 </script>
 
 <div
-	class="fixed top-0 left-0 flex justify-center w-screen h-screen bg-black/60 z-50 text-black"
+	class="fixed top-0 left-0 flex justify-center items-center w-screen h-screen bg-black/80 z-50 text-white font-vt p-4"
 	transition:fade|global={{ duration: 100 }}
 	onclick={on_parent_click}
 >
 	<div
-		class="w-5/6 h-5/6 bg-black m-auto rounded-lg shadow-lg p-4 flex flex-col"
-		style="background-image: url({StartGameBackground}); background-color: #DFDBE5;"
+		class="w-full max-w-2xl mc-panel-dark p-6 shadow-2xl flex flex-col gap-4 border-4"
 	>
-		<div class="flex justify-center w-full">
-			<label
-				for="large-toggle"
-				class="inline-flex relative items-center cursor-pointer"
-				class:pointer-events-none={!captcha_enabled}
-				class:opacity-50={!captcha_enabled}
+		<div class="flex items-center justify-between border-b-2 border-[#555555] pb-2">
+			<h2 class="font-minecraft text-lg sm:text-xl text-[#ffff55] mc-text-shadow-gold flex items-center gap-2">
+				<PlayIcon class="w-5 h-5 text-[#55ff55]" />
+				<span>LAUNCH QUIZ GAME</span>
+			</h2>
+			<button
+				class="mc-btn font-minecraft text-xs p-1.5 flex items-center justify-center min-w-[28px] min-h-[28px]"
+				onclick={() => {
+					quiz_id = null;
+				}}
+				aria-label="Close modal"
 			>
-				<input
-					type="checkbox"
-					bind:checked={captcha_selected}
-					id="large-toggle"
-					class="sr-only peer"
-				/>
-				<span
-					class="w-14 h-7 bg-gray-200 rounded-full
-					peer-focus:outline-hidden peer-focus:ring-4 peer-focus:ring-blue-300
-					dark:peer-focus:ring-blue-800 dark:bg-gray-700
-					peer-checked:bg-blue-600
-					relative
-					after:content-['']
-					after:absolute after:top-0.5 after:start-[4px]
-					after:bg-white after:border-gray-300 after:border
-					after:rounded-full after:h-6 after:w-6
-					after:transition-all
-					peer-checked:after:translate-x-full
-					rtl:peer-checked:after:-translate-x-full"
-				></span>
-				<span class="ms-3 text-sm font-medium text-gray-900"
-					>Captcha {captcha_selected ? 'enabled' : 'disabled'}</span
-				>
-			</label>
+				<CloseIcon class="w-3.5 h-3.5" />
+			</button>
 		</div>
-		{#if captcha_selected}
-			<div class="flex justify-center mt-2" in:fade|global>
-				<p class="w-1/3">
-					{$t('start_game.captcha_message')}
-				</p>
-				<!-- Todo: Add translation  -->
-			</div>
-		{/if}
 
-		<div class="grid grid-cols-2 gap-8 my-auto">
-			<div
-				class="rounded-lg bg-white shadow-lg cursor-pointer transition-all p-2"
-				class:opacity-50={selected_game_mode !== 'kahoot'}
+		<!-- Game Mode Selector -->
+		<div class="grid grid-cols-2 gap-4 my-2">
+			<button
+				class="mc-slot-dark p-4 text-left transition-all flex flex-col gap-2"
+				class:outline={selected_game_mode === 'kahoot'}
+				class:outline-2={selected_game_mode === 'kahoot'}
+				class:outline-[#55ff55]={selected_game_mode === 'kahoot'}
 				onclick={() => {
 					selected_game_mode = 'kahoot';
 				}}
 			>
-				<h2 class="text-center text-2xl">{$t('words.normal')}</h2>
-				<p>
+				<div class="flex items-center gap-2">
+					<PlayIcon class="w-5 h-5 text-[#55ff55]" />
+					<h3 class="font-minecraft text-sm sm:text-base text-[#ffff55]">
+						{$t('words.normal')}
+					</h3>
+				</div>
+				<p class="font-vt text-base text-[#dcdcdc]">
 					{$t('start_game.normal_mode_description')}
 				</p>
-			</div>
-			<div
-				class="rounded-lg bg-white shadow-lg cursor-pointer transition-all p-2"
-				class:opacity-50={selected_game_mode !== 'normal'}
+			</button>
+
+			<button
+				class="mc-slot-dark p-4 text-left transition-all flex flex-col gap-2"
+				class:outline={selected_game_mode === 'normal'}
+				class:outline-2={selected_game_mode === 'normal'}
+				class:outline-[#55ff55]={selected_game_mode === 'normal'}
 				onclick={() => {
 					selected_game_mode = 'normal';
 				}}
 			>
-				<h2 class="text-center text-2xl">{$t('start_game.old_school_mode')}</h2>
-				<p>
+				<div class="flex items-center gap-2">
+					<GearIcon class="w-5 h-5 text-[#4eedf5]" />
+					<h3 class="font-minecraft text-sm sm:text-base text-[#ffff55]">
+						{$t('start_game.old_school_mode')}
+					</h3>
+				</div>
+				<p class="font-vt text-base text-[#dcdcdc]">
 					{$t('start_game.old_school_mode_description')}
 				</p>
-			</div>
+			</button>
 		</div>
-		<div class="flex justify-center items-center my-auto">
-			<label class="mr-4">{$t('result_page.custom_field')}</label>
+
+		<!-- Custom Field Input -->
+		<div class="mc-slot-dark p-3 flex flex-col sm:flex-row items-center gap-3">
+			<label class="font-minecraft text-xs text-[#a0a0a0] uppercase whitespace-nowrap">
+				{$t('result_page.custom_field')}:
+			</label>
 			<input
 				bind:value={custom_field}
-				class="rounded-lg p-2 outline-hidden placeholder:italic"
+				class="mc-input text-lg py-1 px-3 w-full"
 				placeholder="Phone Number or Email"
 			/>
 		</div>
-		<div class="flex justify-center w-full my-auto">
-			<label for="cqc-toggle" class="inline-flex relative items-center cursor-pointer">
-				<input
-					type="checkbox"
-					bind:checked={cqcs_enabled}
-					id="cqc-toggle"
-					class="sr-only peer"
-				/>
-				<span
-					class="w-14 h-7 bg-gray-200 rounded-full
-					peer-focus:outline-hidden peer-focus:ring-4 peer-focus:ring-blue-300
-					dark:peer-focus:ring-blue-800 dark:bg-gray-700
-					peer-checked:bg-blue-600
-					relative
-					after:content-['']
-					after:absolute after:top-0.5 after:start-[4px]
-					after:bg-white after:border-gray-300 after:border
-					after:rounded-full after:h-6 after:w-6
-					after:transition-all
-					peer-checked:after:translate-x-full
-					rtl:peer-checked:after:-translate-x-full"
-				></span>
-				<span class="ms-3 text-sm font-medium text-gray-900"
-					><a
-						href="/controller"
-						target="_blank"
-						use:tippy={{
-							content:
-								'ClassQuizControllers are small physical devices to play ClassQuiz. Click to learn more.'
-						}}
-						class="decoration-dashed underline cursor-help">ClassQuizControllers</a
-					>
-					are {cqcs_enabled ? 'enabled' : 'disabled'}</span
-				>
-			</label>
-		</div>
-		<div class="flex justify-center w-full my-auto">
-			<label
-				for="randomized-answers-toggle"
-				class="inline-flex relative items-center cursor-pointer"
-			>
+
+		<!-- Toggle Options -->
+		<div class="flex flex-col gap-2 font-minecraft text-xs text-[#dcdcdc]">
+			<label class="flex items-center gap-2 cursor-pointer mc-slot-dark p-2">
 				<input
 					type="checkbox"
 					bind:checked={randomized_answers}
-					id="randomized-answers-toggle"
-					class="sr-only peer"
+					class="w-4 h-4 accent-[#55ff55]"
 				/>
-				<span
-					class="w-14 h-7 bg-gray-200 rounded-full
-					peer-focus:outline-hidden peer-focus:ring-4 peer-focus:ring-blue-300
-					dark:peer-focus:ring-blue-800 dark:bg-gray-700
-					peer-checked:bg-blue-600
-					relative
-					after:content-['']
-					after:absolute after:top-0.5 after:start-[4px]
-					after:bg-white after:border-gray-300 after:border
-					after:rounded-full after:h-6 after:w-6
-					after:transition-all
-					peer-checked:after:translate-x-full
-					rtl:peer-checked:after:-translate-x-full"
-				></span>
-				<span class="ms-3 text-sm font-medium text-gray-900"> Randomize answers</span>
+				<span>Randomize answers</span>
+			</label>
+
+			<label class="flex items-center gap-2 cursor-pointer mc-slot-dark p-2">
+				<input
+					type="checkbox"
+					bind:checked={cqcs_enabled}
+					class="w-4 h-4 accent-[#55ff55]"
+				/>
+				<span>ClassQuizControllers {cqcs_enabled ? 'enabled' : 'disabled'}</span>
 			</label>
 		</div>
 
+		<!-- Start Game Action Button -->
 		<button
-			class="mt-auto mx-auto bg-green-500 p-4 rounded-lg shadow-lg hover:bg-green-400 transition-all marck-script text-2xl"
+			class="mc-btn-green mc-btn font-minecraft text-base sm:text-lg py-3 w-full mt-2 flex items-center justify-center gap-2"
 			onclick={() => {
 				start_game(quiz_id);
 			}}
@@ -251,7 +204,8 @@ SPDX-License-Identifier: MPL-2.0
 			{#if loading}
 				<Spinner my_20={false} />
 			{:else}
-				{$t('start_game.start_game')}
+				<PlayIcon class="w-5 h-5" />
+				<span>{$t('start_game.start_game')}</span>
 			{/if}
 		</button>
 	</div>

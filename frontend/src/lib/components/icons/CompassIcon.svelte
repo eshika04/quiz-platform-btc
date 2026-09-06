@@ -1,0 +1,23 @@
+<script lang="ts">
+	interface Props {
+		class?: string;
+		size?: number | string;
+	}
+	let { class: className = 'w-4 h-4 inline-block', size = 16 }: Props = $props();
+</script>
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	width={size}
+	height={size}
+	viewBox="0 0 24 24"
+	fill="none"
+	stroke="currentColor"
+	stroke-width="2"
+	stroke-linecap="round"
+	stroke-linejoin="round"
+	class={className}
+>
+	<circle cx="12" cy="12" r="10"></circle>
+	<polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+</svg>
