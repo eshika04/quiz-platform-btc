@@ -46,12 +46,12 @@ SPDX-License-Identifier: MPL-2.0
 
 {#if show_final_results}
 	<canvas bind:this={canvas} class="fixed inset-0 pointer-events-none z-50"></canvas>
-	<div class="min-h-screen flex flex-col justify-center items-center p-4 font-vt">
+	<div class="min-h-screen flex flex-col justify-center items-center p-4 font-game-body">
 		<div class="mc-panel-dark p-6 max-w-2xl w-full shadow-2xl text-center mb-8">
 			<div class="w-16 h-16 mx-auto mb-2 flex items-center justify-center text-[#ffff55] animate-bounce">
 				<TrophyIcon class="w-12 h-12" />
 			</div>
-			<h1 class="font-minecraft text-2xl sm:text-4xl text-[#ffff55] mc-text-shadow-gold mb-6">
+			<h1 class="font-bungee text-2xl sm:text-4xl text-[#ffff55] mc-text-shadow-gold mb-6 tracking-wide">
 				FINAL RESULTS
 			</h1>
 
@@ -68,16 +68,16 @@ SPDX-License-Identifier: MPL-2.0
 						{@const rankTitles = ['1ST PLACE', '2ND PLACE', '3RD PLACE', '4TH PLACE', '5TH PLACE']}
 						<div
 							in:fly|global={{ y: -200, delay: player_count_or_five * 1000 - (i + 1) * 800 }}
-							class="mc-slot-dark p-3 flex items-center justify-between border-2 {rankColors[i] ?? 'text-white'}"
+							class="mc-slot-dark p-3 sm:p-4 flex items-center justify-between border-2 {rankColors[i] ?? 'text-white'}"
 						>
 							<div class="flex items-center gap-3">
-								<div class="flex items-center gap-1.5 font-minecraft text-xs sm:text-sm">
+								<div class="flex items-center gap-1.5 font-bungee text-xs sm:text-sm tracking-wider">
 									<MedalIcon class="w-4 h-4 inline-block" />
 									<span>{rankTitles[i]}</span>
 								</div>
-								<span class="font-minecraft text-base sm:text-xl mc-text-shadow">{player}</span>
+								<span class="font-bungee text-base sm:text-xl mc-text-shadow tracking-wide">{player}</span>
 							</div>
-							<span class="font-minecraft text-sm sm:text-lg">{data[player]} PTS</span>
+							<span class="font-bungee text-sm sm:text-lg tracking-wider">{data[player]} PTS</span>
 						</div>
 					{/if}
 				{/each}
@@ -86,11 +86,11 @@ SPDX-License-Identifier: MPL-2.0
 
 		{#if data[username]}
 			<div class="mc-panel-dark p-4 max-w-md w-full shadow-2xl text-center">
-				<p class="font-minecraft text-xs text-[#a0a0a0] uppercase mb-1">YOUR SCORE:</p>
-				<p class="font-minecraft text-xl text-[#55ff55] mc-text-shadow">{data[username]} PTS</p>
+				<p class="font-bungee text-xs text-[#a0a0a0] uppercase mb-1 tracking-wider">YOUR SCORE:</p>
+				<p class="font-bungee text-2xl text-[#55ff55] mc-text-shadow">{data[username]} PTS</p>
 				{#each player_names as player, i}
 					{#if player === username}
-						<p class="font-vt text-xl text-[#ffff55] mt-1">
+						<p class="font-game-body text-xl text-[#ffff55] mt-1 font-semibold">
 							Final Rank: #{i + 1} of {player_names.length} players
 						</p>
 					{/if}

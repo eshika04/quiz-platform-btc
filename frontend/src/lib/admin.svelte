@@ -15,7 +15,7 @@ SPDX-License-Identifier: MPL-2.0
 	import type { IGameState } from '$lib/play/admin/game_state.ts';
 
 	const { t } = getLocalization();
-	const default_colors = ['#D6EDC9', '#B07156', '#7F7057', '#4E6E58'];
+	const default_colors = ['#f04856', '#4eedf5', '#fbb034', '#2ecc71'];
 
 	let final_results_clicked = $state(false);
 	let timer_interval: NodeJS.Timeout;

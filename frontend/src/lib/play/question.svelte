@@ -164,15 +164,15 @@
 	];
 </script>
 
-<div class="h-screen w-screen flex flex-col font-vt select-none p-3 max-w-7xl mx-auto justify-between">
+<div class="h-screen w-screen flex flex-col font-game-body select-none p-3 max-w-7xl mx-auto justify-between">
 	<!-- Top Bar: Boss Health Timer / Question index / Level Counter -->
 	<div class="w-full flex flex-col gap-1 pt-1 z-30">
-		<div class="flex items-center justify-between px-2 font-minecraft text-xs text-[#ffff55] mc-text-shadow">
+		<div class="flex items-center justify-between px-2 font-bungee text-xs sm:text-sm text-[#ffff55] mc-text-shadow">
 			<span class="flex items-center gap-1.5">
-				<ClockIcon class="w-3.5 h-3.5" />
+				<ClockIcon class="w-4 h-4" />
 				<span>TIMER</span>
 			</span>
-			<span class="mc-xp-level text-lg">{timer_res}s</span>
+			<span class="mc-xp-level font-bungee text-xl sm:text-2xl">{timer_res}s</span>
 			<span>Q #{question_index}</span>
 		</div>
 
@@ -187,12 +187,12 @@
 
 	<!-- Question Prompt Display -->
 	{#if game_mode === 'normal'}
-		<div class="mc-panel-dark p-4 my-2 flex flex-col items-center justify-center text-center shadow-xl">
-			<h1 class="font-minecraft text-lg sm:text-2xl md:text-3xl text-[#ffffff] mc-text-shadow leading-relaxed">
+		<div class="mc-panel-dark p-5 my-2 flex flex-col items-center justify-center text-center shadow-xl">
+			<h1 class="font-bungee text-xl sm:text-3xl md:text-4xl text-[#ffffff] mc-text-shadow leading-snug tracking-wide">
 				{@html question.question}
 			</h1>
 			{#if question.image !== null && game_mode !== 'kahoot'}
-				<div class="max-h-[30vh] mt-2 border-2 border-[#555555]">
+				<div class="max-h-[30vh] mt-3 border-2 border-[#555555]">
 					<MediaComponent
 						src={question.image}
 						css_classes="object-contain max-h-[28vh] mx-auto"
@@ -210,14 +210,14 @@
 					{@const ore = ore_styles[i % 4]}
 					{@const ShapeComp = shape_components[i % 4]}
 					<button
-						class="flex items-center justify-between p-4 border-4 transition-transform active:scale-95 disabled:opacity-60 cursor-pointer"
+						class="flex items-center justify-between p-4 sm:p-5 border-4 transition-transform active:scale-95 disabled:opacity-60 cursor-pointer rounded-sm"
 						style="background: {ore.bg}; border-color: {ore.border}; box-shadow: {ore.shadow};"
 						disabled={selected_answer !== undefined}
 						onclick={() => selectAnswer(answer.answer)}
 					>
-						<div class="flex items-center gap-3">
-							<div class="w-8 h-8 flex items-center justify-center text-white/90 drop-shadow">
-								<ShapeComp class="w-6 h-6" />
+						<div class="flex items-center gap-3.5">
+							<div class="w-9 h-9 flex items-center justify-center text-white drop-shadow">
+								<ShapeComp class="w-7 h-7" />
 							</div>
 							{#if game_mode === 'kahoot'}
 								<img
@@ -226,13 +226,13 @@
 									src={kahoot_icons[i]}
 								/>
 							{:else}
-								<span class="font-minecraft text-base sm:text-xl text-white mc-text-shadow text-left">
+								<span class="font-bungee text-lg sm:text-2xl text-white mc-text-shadow text-left tracking-wide leading-snug">
 									{answer.answer}
 								</span>
 							{/if}
 						</div>
 
-						<span class="font-minecraft text-xs text-white/70 uppercase tracking-widest hidden sm:inline">
+						<span class="font-bungee text-xs text-white/80 uppercase tracking-widest hidden sm:inline">
 							[{ore.name}]
 						</span>
 					</button>
@@ -243,7 +243,7 @@
 				<Spinner />
 			{:then c}
 				<div class="mc-panel-dark p-6 my-auto max-w-2xl mx-auto w-full shadow-2xl">
-					<h2 class="font-minecraft text-center text-lg text-[#ffff55] mb-4 flex items-center justify-center gap-2">
+					<h2 class="font-bungee text-center text-lg sm:text-xl text-[#ffff55] mb-4 flex items-center justify-center gap-2">
 						<GearIcon class="w-5 h-5" />
 						<span>SELECT RANGE VALUE</span>
 					</h2>
@@ -261,7 +261,7 @@
 					<div class="flex justify-center mt-6">
 						<div class="w-2/3">
 							<BrownButton onclick={() => selectAnswer(slider_value[0])}>
-								<div class="flex items-center justify-center gap-2">
+								<div class="flex items-center justify-center gap-2 font-bungee">
 									<CheckIcon class="w-4 h-4" />
 									<span>{$t('words.submit')} ({slider_value[0]})</span>
 								</div>
@@ -275,7 +275,7 @@
 				<div class="w-10 h-10 mb-2 flex items-center justify-center text-[#ffff55]">
 					<HammerIcon class="w-8 h-8" />
 				</div>
-				<h2 class="font-minecraft text-xl text-[#ffff55] mb-4 mc-text-shadow-gold">
+				<h2 class="font-bungee text-xl sm:text-2xl text-[#ffff55] mb-4 mc-text-shadow-gold">
 					ENTER ANSWER
 				</h2>
 				<input
@@ -283,7 +283,7 @@
 					bind:value={text_input}
 					disabled={selected_answer !== undefined}
 					placeholder="Type answer here..."
-					class="mc-input w-full text-center text-2xl font-minecraft text-[#55ff55] py-3 mb-6"
+					class="mc-input w-full text-center text-2xl font-bungee text-[#55ff55] py-3 mb-6"
 				/>
 				<div class="w-2/3">
 					<BrownButton
@@ -293,7 +293,7 @@
 							selectAnswer(text_input);
 						}}
 					>
-						<div class="flex items-center justify-center gap-2">
+						<div class="flex items-center justify-center gap-2 font-bungee">
 							<CheckIcon class="w-4 h-4" />
 							<span>{$t('words.submit')}</span>
 						</div>
@@ -302,7 +302,7 @@
 			</div>
 		{:else if question.type === QuizQuestionType.ORDER}
 			<div class="mc-panel-dark p-4 my-auto max-w-2xl mx-auto w-full shadow-2xl flex flex-col gap-3">
-				<h2 class="font-minecraft text-center text-sm sm:text-base text-[#ffff55] flex items-center justify-center gap-2">
+				<h2 class="font-bungee text-center text-sm sm:text-base text-[#ffff55] flex items-center justify-center gap-2">
 					<DashboardIcon class="w-4 h-4" />
 					<span>ORDER ITEMS</span>
 				</h2>
@@ -315,21 +315,21 @@
 							onclick={() => {
 								question.answers = swapArrayElements(question.answers, i, i - 1);
 							}}
-							class="mc-btn p-2 text-sm disabled:opacity-30"
+							class="mc-btn font-bungee p-2 text-sm disabled:opacity-30"
 							type="button"
 							aria-label="Move item up"
 							disabled={i === 0 || Boolean(selected_answer)}
 						>
 							▲
 						</button>
-						<p class="font-minecraft text-base sm:text-lg text-[#ffffff] px-2 text-center">
+						<p class="font-bungee text-base sm:text-xl text-[#ffffff] px-2 text-center tracking-wide">
 							{answer.answer}
 						</p>
 						<button
 							onclick={() => {
 								question.answers = swapArrayElements(question.answers, i, i + 1);
 							}}
-							class="mc-btn p-2 text-sm disabled:opacity-30"
+							class="mc-btn font-bungee p-2 text-sm disabled:opacity-30"
 							type="button"
 							aria-label="Move item down"
 							disabled={i === question.answers.length - 1 || Boolean(selected_answer)}
@@ -346,7 +346,7 @@
 							select_complex_answer(question.answers);
 						}}
 					>
-						<div class="flex items-center justify-center gap-2">
+						<div class="flex items-center justify-center gap-2 font-bungee">
 							<CheckIcon class="w-4 h-4" />
 							<span>{$t('words.submit')}</span>
 						</div>
@@ -371,7 +371,7 @@
 							disabled={selected_answer === undefined}
 							onclick={() => selectAnswer(selected_answer)}
 						>
-							<div class="flex items-center justify-center gap-2">
+							<div class="flex items-center justify-center gap-2 font-bungee">
 								<CheckIcon class="w-4 h-4" />
 								<span>{$t('words.submit')}</span>
 							</div>
@@ -386,10 +386,10 @@
 			<div class="w-12 h-12 mx-auto mb-2 flex items-center justify-center text-[#ff5555]">
 				<ClockIcon class="w-10 h-10" />
 			</div>
-			<h2 class="font-minecraft text-2xl text-[#ff5555] mc-text-shadow-redstone">
+			<h2 class="font-bungee text-2xl sm:text-3xl text-[#ff5555] mc-text-shadow-redstone tracking-wide">
 				TIME'S UP!
 			</h2>
-			<p class="font-vt text-xl text-[#dcdcdc] mt-2">Calculating results...</p>
+			<p class="font-game-body text-xl text-[#dcdcdc] mt-2">Calculating results...</p>
 		</div>
 	{/if}
 </div>

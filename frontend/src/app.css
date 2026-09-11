@@ -11,9 +11,12 @@ SPDX-License-Identifier: MPL-2.0
 @tailwind utilities;
 
 :root {
-	--mc-font-heading: 'Press Start 2P', 'Silkscreen', monospace;
-	--mc-font-body: 'VT323', 'Silkscreen', monospace;
+	--mc-font-heading: 'Bungee', 'Press Start 2P', cursive, sans-serif;
+	--mc-font-body: 'Fredoka', 'VT323', system-ui, -apple-system, sans-serif;
 	--mc-font-pixel: 'Silkscreen', monospace;
+	--font-bungee: 'Bungee', cursive, sans-serif;
+	--font-bungee-inline: 'Bungee Inline', 'Bungee', cursive, sans-serif;
+	--font-game-body: 'Fredoka', system-ui, sans-serif;
 
 	--mc-gray-light: #dcdcdc;
 	--mc-gray-mid: #707070;
@@ -40,20 +43,34 @@ SPDX-License-Identifier: MPL-2.0
 
 body {
 	font-family: var(--mc-font-body);
-	font-size: 1.25rem;
-	letter-spacing: 0.05em;
-	image-rendering: pixelated;
-	-webkit-font-smoothing: none;
+	font-size: 1.15rem;
+	letter-spacing: 0.02em;
+	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
 	font-family: var(--mc-font-heading);
-	letter-spacing: 0.04em;
+	letter-spacing: 0.03em;
+}
+
+.font-bungee, .font-game {
+	font-family: 'Bungee', cursive, sans-serif !important;
+	letter-spacing: 0.03em;
+}
+
+.font-bungee-inline {
+	font-family: 'Bungee Inline', 'Bungee', cursive, sans-serif !important;
+	letter-spacing: 0.03em;
+}
+
+.font-game-body {
+	font-family: 'Fredoka', system-ui, -apple-system, sans-serif !important;
 }
 
 .font-minecraft, .font-heading {
 	font-family: var(--mc-font-heading) !important;
+	letter-spacing: 0.03em;
 }
 
 .font-pixel {
@@ -62,6 +79,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .font-vt {
 	font-family: var(--mc-font-body) !important;
+	font-weight: 500;
 }
 
 .marck-script {

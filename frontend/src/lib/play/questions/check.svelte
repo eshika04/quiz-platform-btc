@@ -86,15 +86,15 @@
 				{#if game_mode === 'kahoot'}
 					<img class="h-10 inline-block" alt="Icon" src={kahoot_icons[i]} />
 				{:else}
-					<span class="font-minecraft text-base sm:text-xl text-white mc-text-shadow text-left">
+					<span class="font-bungee text-lg sm:text-2xl text-white mc-text-shadow text-left tracking-wide leading-snug">
 						{answer.answer}
 					</span>
 				{/if}
 			</div>
 
-			<div class="mc-slot-dark w-8 h-8 flex items-center justify-center font-minecraft text-sm text-[#55ff55]">
+			<div class="mc-slot-dark w-9 h-9 flex items-center justify-center font-bungee text-sm text-[#55ff55]">
 				{#if _selected_answers[i]}
-					<CheckIcon class="w-5 h-5 text-[#55ff55]" />
+					<CheckIcon class="w-6 h-6 text-[#55ff55]" />
 				{/if}
 			</div>
 		</button>

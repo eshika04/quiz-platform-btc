@@ -46,10 +46,7 @@ SPDX-License-Identifier: MPL-2.0
 
 	let darkMode = $state(false);
 	if (browser) {
-		darkMode =
-			localStorage.theme === 'dark' ||
-			(!('theme' in localStorage) &&
-				window.matchMedia('(prefers-color-scheme: dark)').matches);
+		darkMode = localStorage.theme === 'dark';
 	}
 
 	const switchDarkMode = () => {

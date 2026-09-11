@@ -45,34 +45,34 @@ SPDX-License-Identifier: MPL-2.0
 	let sorted_scores = $derived(sortObjectbyValue(scores));
 </script>
 
-<div class="flex justify-center items-center h-screen font-vt p-4">
+<div class="flex justify-center items-center h-screen font-game-body p-4">
 	<div class="mc-panel-dark p-8 max-w-md w-full shadow-2xl flex flex-col items-center text-center">
 		<!-- Sparkles / Trophy Icon -->
-		<div class="w-12 h-12 mb-3 flex items-center justify-center text-[#ffff55] animate-bounce">
-			<SparklesIcon class="w-10 h-10" />
+		<div class="w-14 h-14 mb-3 flex items-center justify-center text-[#ffff55] animate-bounce">
+			<SparklesIcon class="w-12 h-12" />
 		</div>
 
-		<h2 class="font-minecraft text-xl text-[#ffff55] mc-text-shadow-gold mb-4">
+		<h2 class="font-bungee text-2xl text-[#ffff55] mc-text-shadow-gold mb-5 tracking-wide">
 			ROUND COMPLETE
 		</h2>
 
 		<!-- XP Gained Box -->
 		<div class="mc-slot-dark p-4 w-full mb-4 flex items-center justify-between">
-			<span class="font-minecraft text-xs text-[#a0a0a0] uppercase">SCORE GAINED:</span>
-			<span class="font-minecraft text-2xl text-[#55ff55] mc-text-shadow">
+			<span class="font-bungee text-xs text-[#a0a0a0] uppercase tracking-wider">SCORE GAINED:</span>
+			<span class="font-bungee text-2xl sm:text-3xl text-[#55ff55] mc-text-shadow">
 				+{score_by_username[username] ?? '0'} PTS
 			</span>
 		</div>
 
 		<!-- Total Score Box -->
 		<div class="mc-slot-dark p-4 w-full flex items-center justify-between">
-			<span class="font-minecraft text-xs text-[#a0a0a0] uppercase">TOTAL SCORE:</span>
-			<span class="font-minecraft text-2xl text-[#ffff55] mc-text-shadow-gold">
+			<span class="font-bungee text-xs text-[#a0a0a0] uppercase tracking-wider">TOTAL SCORE:</span>
+			<span class="font-bungee text-2xl sm:text-3xl text-[#ffff55] mc-text-shadow-gold">
 				{sorted_scores[username] ?? '0'}
 			</span>
 		</div>
 
-		<p class="font-vt text-lg text-[#888888] mt-6">
+		<p class="font-game-body text-xl text-[#a0a0a0] mt-6">
 			Waiting for Host...
 		</p>
 	</div>

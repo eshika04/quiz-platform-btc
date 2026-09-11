@@ -204,25 +204,25 @@ SPDX-License-Identifier: MPL-2.0
 </svelte:head>
 
 {#if game_pin === '' || game_pin.length < 6}
-	<div class="flex flex-col justify-center items-center w-screen h-screen p-4">
+	<div class="flex flex-col justify-center items-center w-screen h-screen p-4 font-game-body">
 		<div class="mc-panel-dark p-8 max-w-md w-full shadow-2xl flex flex-col items-center">
 			<div class="mb-6 text-center">
 				<div class="w-12 h-12 mx-auto mb-2 flex items-center justify-center text-[#ffff55]">
 					<CompassIcon class="w-10 h-10" />
 				</div>
-				<h1 class="font-minecraft text-xl sm:text-2xl text-[#ffff55] mc-text-shadow-gold">
+				<h1 class="font-bungee text-xl sm:text-2xl text-[#ffff55] mc-text-shadow-gold tracking-wide">
 					DIRECT CONNECT
 				</h1>
-				<p class="font-vt text-lg text-[#a0a0a0] mt-1">ClassQuiz Game</p>
+				<p class="font-game-body text-lg text-[#a0a0a0] mt-1">ClassQuiz Game</p>
 			</div>
 
 			<form class="flex flex-col w-full">
-				<label for="game-pin-input" class="font-minecraft text-xs text-[#dcdcdc] mb-2 uppercase">
+				<label for="game-pin-input" class="font-bungee text-xs text-[#dcdcdc] mb-2 uppercase tracking-wider">
 					{$t('words.game_pin')}:
 				</label>
 				<input
 					id="game-pin-input"
-					class="mc-input text-center text-3xl font-minecraft tracking-widest text-[#55ff55] py-3 w-full"
+					class="mc-input text-center text-3xl font-bungee tracking-widest text-[#55ff55] py-3 w-full"
 					bind:value={game_pin}
 					maxlength="6"
 					inputmode="numeric"
@@ -232,7 +232,7 @@ SPDX-License-Identifier: MPL-2.0
 
 				<div class="mt-6 w-full">
 					<BrownButton disabled={game_pin.length < 6}>
-						<div class="flex items-center justify-center gap-2">
+						<div class="flex items-center justify-center gap-2 font-bungee">
 							<CheckIcon class="w-4 h-4" />
 							<span>{$t('words.submit')}</span>
 						</div>
@@ -242,25 +242,25 @@ SPDX-License-Identifier: MPL-2.0
 		</div>
 	</div>
 {:else}
-	<div class="flex flex-col justify-center items-center w-screen h-screen p-4">
+	<div class="flex flex-col justify-center items-center w-screen h-screen p-4 font-game-body">
 		<div class="mc-panel-dark p-8 max-w-md w-full shadow-2xl flex flex-col items-center">
 			<div class="mb-6 text-center">
 				<div class="w-16 h-16 mx-auto mb-3 bg-[#4a3b32] border-4 border-[#1e1e1e] shadow-[inset_2px_2px_0_#2b221c] flex items-center justify-center text-[#55ff55]">
 					<PlayIcon class="w-8 h-8" />
 				</div>
-				<h1 class="font-minecraft text-xl sm:text-2xl text-[#ffff55] mc-text-shadow-gold">
+				<h1 class="font-bungee text-xl sm:text-2xl text-[#ffff55] mc-text-shadow-gold tracking-wide">
 					PLAYER PROFILE
 				</h1>
-				<p class="font-vt text-lg text-[#55ff55] mt-1">Game PIN: #{game_pin}</p>
+				<p class="font-game-body text-lg text-[#55ff55] mt-1">Game PIN: #{game_pin}</p>
 			</div>
 
 			<form onsubmit={setUsername} class="flex flex-col w-full">
-				<label for="username-input" class="font-minecraft text-xs text-[#dcdcdc] mb-2 uppercase">
+				<label for="username-input" class="font-bungee text-xs text-[#dcdcdc] mb-2 uppercase tracking-wider">
 					{$t('words.username')}:
 				</label>
 				<input
 					id="username-input"
-					class="mc-input text-center text-2xl font-minecraft text-[#ffff55] py-2.5 w-full mb-4"
+					class="mc-input text-center text-2xl font-bungee text-[#ffff55] py-2.5 w-full mb-4"
 					bind:value={username}
 					maxlength="17"
 					placeholder="Player_One"
@@ -268,19 +268,19 @@ SPDX-License-Identifier: MPL-2.0
 				/>
 
 				{#if custom_field}
-					<label for="custom-field-input" class="font-minecraft text-xs text-[#dcdcdc] mb-2 uppercase">
+					<label for="custom-field-input" class="font-bungee text-xs text-[#dcdcdc] mb-2 uppercase tracking-wider">
 						{custom_field}:
 					</label>
 					<input
 						id="custom-field-input"
-						class="mc-input text-center text-xl font-vt text-[#ffffff] py-2 w-full mb-4"
+						class="mc-input text-center text-xl font-game-body text-[#ffffff] py-2 w-full mb-4"
 						bind:value={custom_field_value}
 					/>
 				{/if}
 
 				<div class="mt-4 w-full">
 					<BrownButton disabled={username.length <= 3} onclick={setUsername}>
-						<div class="flex items-center justify-center gap-2">
+						<div class="flex items-center justify-center gap-2 font-bungee">
 							<PlayIcon class="w-4 h-4" />
 							<span>JOIN GAME</span>
 						</div>

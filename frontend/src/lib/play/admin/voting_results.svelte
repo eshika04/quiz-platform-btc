@@ -59,7 +59,7 @@ SPDX-License-Identifier: MPL-2.0
 					style="height: {(sorted_data[answer] * 20) /
 						data.length}rem; background-color: {quiz_colors[i]
 						? quiz_colors[i]
-						: 'black'}"
+						: ['#f04856', '#4eedf5', '#fbb034', '#2ecc71'][i % 4]}"
 				></div>
 			{/each}
 		</div>
